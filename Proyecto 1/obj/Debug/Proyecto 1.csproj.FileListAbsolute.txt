@@ -1,0 +1,7 @@
+c:\users\ropea\source\repos\Proyecto 1\Proyecto 1\bin\Debug\Proyecto 1.exe.config
+c:\users\ropea\source\repos\Proyecto 1\Proyecto 1\bin\Debug\Proyecto 1.exe
+c:\users\ropea\source\repos\Proyecto 1\Proyecto 1\bin\Debug\Proyecto 1.pdb
+c:\users\ropea\source\repos\Proyecto 1\Proyecto 1\obj\Debug\Proyecto 1.csprojAssemblyReference.cache
+c:\users\ropea\source\repos\Proyecto 1\Proyecto 1\obj\Debug\Proyecto 1.csproj.CoreCompileInputs.cache
+c:\users\ropea\source\repos\Proyecto 1\Proyecto 1\obj\Debug\Proyecto 1.exe
+c:\users\ropea\source\repos\Proyecto 1\Proyecto 1\obj\Debug\Proyecto 1.pdb
