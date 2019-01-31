@@ -11,7 +11,6 @@ namespace Proyecto_1
     {
         public StreamReader Archivo;
         protected StreamWriter Log;
-        private bool disposed = false;
 
         public Lexico()
         {
@@ -28,28 +27,6 @@ namespace Proyecto_1
                 System.Environment.Exit(-1);
                 return;
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                handle.Dispose();
-                // Free any other managed objects here.
-            }
-            // Free any unmanaged objects here.
-            //Que el log se cierre en el destructor con DISPOSE
-            Log.Close();
-            disposed = true;
         }
 
         ~Lexico()
