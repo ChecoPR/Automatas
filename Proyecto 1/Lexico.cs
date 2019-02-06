@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Win32.SafeHandles;
+using System.Runtime.Serialization;
+using System.Runtime.InteropServices;
 
 namespace Proyecto_1
 {
-    class Lexico : Token
+    class Lexico : Token, IDisposable
     {
         public StreamReader Archivo;
         protected StreamWriter Log;
+        private bool disposed = false;
+        SafeHandle handle = new SafeFileHandle(IntPtr.Zero, true);
 
         public Lexico()
         {
@@ -31,8 +36,8 @@ namespace Proyecto_1
 
         ~Lexico()
         {
-            Archivo.Close();
-            Log.Close();
+            Console.WriteLine("Fin de analisis lexico.");
+            Console.ReadKey();
         }
 
         public int automata(int renglon, int columna)
@@ -100,6 +105,20 @@ namespace Proyecto_1
                     break;
                 case 18:
                     SETClasificacion(c.Cadena);
+                    break;
+                case E:
+                    if (renglon == 3)
+                    {
+                        try
+                        {
+                            throw new ErrorLexico("Error lexico: Se espera numero despues del punto.");
+                        }
+                        catch (ErrorLexico)
+                        {
+                            Console.WriteLine("Error en fila  y columna.");
+                            Log.WriteLine("Error lexico: Se espera numero despues del punto.\nError en fila y columna.\n");
+                        }
+                    }
                     break;
             }
             return TRAND[renglon, columna];
@@ -219,8 +238,50 @@ namespace Proyecto_1
             //condicion-> expresion operadorRelacional expresion
                 SETContenido(buffer);
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                handle.Dispose();
+                // Free any other managed objects here.
+            }
+            // Free any unmanaged objects here.
+            //Que el log se cierre en el destructor con DISPOSE
+            Log.Close();
+            disposed = true;
+        }
+
     }
 
+    [Serializable]
+    internal class ErrorLexico : Exception
+    {
+        public ErrorLexico()
+        {
+        }
+
+        public ErrorLexico(string message) : base(message)
+        {
+        }
+
+        public ErrorLexico(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected ErrorLexico(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
 
     public class NumberException : Exception
     {

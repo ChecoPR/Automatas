@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Proyecto_1 
 {
     class Sintaxis : Lexico
@@ -21,10 +22,21 @@ namespace Proyecto_1
             }
             else
             {
-                Console.WriteLine("Error de sintáxis, se espera un " + esperado);
-                Console.WriteLine("El contenido del token = " + GETContenido());
-                Log.WriteLine("Error de sintáxis, se espera un " + esperado);
-                Log.WriteLine("El contenido del token = " + GETContenido());
+                try
+                {
+                    throw new ErrorLexico("Error de sintaxis: se espera un " + esperado);
+                }
+                catch (ErrorLexico)
+                {
+                    Console.WriteLine("Contenido: " + GETContenido());
+                    Console.WriteLine("Clasificacion: " + STRClasificacion(GETClasificacion()));
+                    Log.WriteLine("Error de sintaxis: Se espera un " + esperado);
+                    Log.WriteLine("Contenido: " + GETContenido());
+                    Log.WriteLine("Clasificacion: " + STRClasificacion(GETClasificacion()));
+                }
+                Log.Close();
+                Console.ReadKey();
+                Environment.Exit(0);
             }
         }
 
@@ -36,10 +48,21 @@ namespace Proyecto_1
             }
             else
             {
-                Console.WriteLine("Error de sintáxis, se espera un " + STRClasificacion(esperado));
-                Console.WriteLine("El contenido del token = " + GETContenido());
-                Log.WriteLine("Error de sintáxis, se espera un " + STRClasificacion(esperado));
-                Log.WriteLine("El contenido del token = " + GETContenido());
+                try
+                {
+                    throw new ErrorLexico("Error de sintaxis: se espera un " + esperado);
+                }
+                catch (ErrorLexico)
+                {
+                    Console.WriteLine("Contenido: " + GETContenido());
+                    Console.WriteLine("Clasificacion: " + STRClasificacion(GETClasificacion()));
+                    Log.WriteLine("Error de sintaxis: Se espera un " + esperado);
+                    Log.WriteLine("Contenido: " + GETContenido());
+                    Log.WriteLine("Clasificacion: " + STRClasificacion(GETClasificacion()));
+                }
+                Log.Close();
+                Console.ReadKey();
+                Environment.Exit(0);
             }
         }
     }

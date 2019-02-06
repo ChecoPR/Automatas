@@ -50,7 +50,6 @@ namespace Proyecto_1
         private void ListaDeInstrucciones()
         {
             Instruccion();
-            MATCH(";");
             if (GETContenido() != "}")
             {
                 ListaDeInstrucciones();
@@ -63,7 +62,7 @@ namespace Proyecto_1
             {
                 MATCH("printf");
                 MATCH("(");
-                if(GETClasificacion() == c.Cadena)
+                if (GETClasificacion() == c.Cadena)
                 {
                     MATCH(c.Cadena);
                 }
@@ -72,20 +71,34 @@ namespace Proyecto_1
                     MATCH(c.Identificador);
                 }
                 MATCH(")");
+                MATCH(";");
             }
-            else if(GETContenido() == "scanf")
+            else if (GETContenido() == "scanf")
             {
                 MATCH("scanf");
                 MATCH("(");
-                MATCH(c.Cadena);
+                if (GETClasificacion() == c.Cadena)
+                {
+                    MATCH(c.Cadena);
+                }
+                else
+                {
+                    MATCH(c.Identificador);
+                }
                 MATCH(",");
                 MATCH("&");
                 MATCH(c.Identificador);
                 MATCH(")");
+                MATCH(";");
             }
-            else
+            else if (GETContenido() == "if")
+            {
+                If();
+            }
+            else if(GETClasificacion() == c.Identificador)
             {
                 Asignacion();
+                MATCH(";");
             }
         }
 
@@ -141,6 +154,52 @@ namespace Proyecto_1
                 MATCH("(");
                 Expresion();
                 MATCH(")");
+            }
+        }
+
+        public void If()
+        {
+            MATCH("if");
+            MATCH("(");
+            Condicion();
+            MATCH(")");
+            if (GETContenido() == "{")
+            {
+                MATCH("{");
+                ListaDeInstrucciones();
+                MATCH("}");
+            }
+            else
+            {
+                Instruccion();
+                MATCH(";");
+            }
+            if (GETContenido() == "else")
+            {
+                MATCH("else");
+                if (GETContenido() == "}")
+                {
+                    MATCH("{");
+                    ListaDeInstrucciones();
+                    MATCH("}");
+                }
+                else
+                {
+                    Instruccion();
+                    MATCH(";");
+                }
+            }
+        }
+
+        public void Condicion()
+        {
+            Expresion();
+            MATCH(c.OperadorRelacional);
+            Expresion();
+            if (GETClasificacion() == c.OperadorLogico)
+            {
+                MATCH(c.OperadorLogico);
+                Condicion();
             }
         }
     }
